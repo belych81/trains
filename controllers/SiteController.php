@@ -30,7 +30,12 @@ class SiteController extends Controller
                 'only' => ['logout', 'add'],
                 'rules' => [
                     [
-                        'actions' => ['logout', 'add'],
+                        'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['add'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -115,6 +120,9 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            // $auth = Yii::$app->authManager;
+            // $authorRole = $auth->getRole('admin');
+            // $auth->assign($authorRole, Yii::$app->user->id);
             return $this->goBack();
         }
 
@@ -137,63 +145,27 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
      * Displays about page.
      *
      * @return string
      */
     public function actionAdd()
     {
-        $model = new TrainForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate() ) {
-            Yii::$app->session->setFlash('Добавлено');
+        if (Yii::$app->user->can('add')) {
+            $model = new TrainForm();
+            if ($model->load(Yii::$app->request->post()) && $model->validate() ) {
+                Yii::$app->session->setFlash('Добавлено');
 
-            if (!$model->add()) {
-                //throw new \Exception('Failed to save');
+                if (!$model->add()) {
+                    //throw new \Exception('Failed to save');
+                }
             }
+
+            return $this->render('add', [
+                'model' => $model,
+            ]);
         }
-
-        return $this->render('add', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionSay($message = 'Привет')
-    {
-        return $this->render('say', ['message' => $message]);
-    }
-
-    public function actionEntry()
-    {
-        $model = new EntryForm();
-
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            // данные в $model удачно проверены
-
-            // делаем что-то полезное с $model ...
- 
-            return $this->render('entry-confirm', ['model' => $model]);
-        } else {
-            // либо страница отображается первый раз, либо есть ошибка в данных
-            return $this->render('entry', ['model' => $model]);
-        }
+        return $this->goHome();
     }
 	
     public function actionSignup()
@@ -209,6 +181,10 @@ class SiteController extends Controller
             $user->password = \Yii::$app->security->generatePasswordHash($model->password);
             
             if ($user->save()) {
+                $auth = Yii::$app->authManager;
+                $authorRole = $auth->getRole('admin');
+                $auth->assign($authorRole, $user->getId());
+
                 return $this->goHome();
             }
         }

@@ -41,6 +41,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'items' => [
             ['label' => 'Главная', 'url' => ['/site/index']],
             ['label' => 'Добавить', 'url' => ['/site/add']],
+            ['label' => 'Поиск', 'url' => ['/site/search']],
             Yii::$app->user->isGuest 
                 ? ['label' => 'Регистрация', 'url' => ['/site/signup']] : '',
             Yii::$app->user->isGuest
