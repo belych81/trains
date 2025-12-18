@@ -118,6 +118,7 @@ class Items extends \yii\db\ActiveRecord
             ->where(['is', 'arrive', new \yii\db\Expression('null')])
             ->andWhere(['>=','departure', $endDate])
             ->orderBy('departure')
+            ->limit(5)
             ->all();
     }
 
@@ -131,6 +132,7 @@ class Items extends \yii\db\ActiveRecord
             ->where(['is', 'departure', new \yii\db\Expression('null')])
             ->andWhere(['>=','arrive', $endDate])
             ->orderBy('arrive')
+            ->limit(5)
             ->all();
     }
 
