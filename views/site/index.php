@@ -98,10 +98,10 @@ $this->title = 'Поезда';
                         <caption>Самые нагруженные станции</caption>
                         <? 
                         if (!empty($countStations)) {
-                            foreach ($countStations as $item) { 
+                            foreach ($countStations as $key => $item) { 
                                     ?>
                                 <tr>
-                                    <td><?= Html::encode($item['name']) ?></td>
+                                    <td><?= $key + 1?>. <?= Html::encode($item['name']) ?></td>
                                     <td><?= Html::encode($item['count']) ?></td>
                                 </tr>
                             <? } 
