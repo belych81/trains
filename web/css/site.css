@@ -95,3 +95,17 @@ a.desc:after {
 caption {
   caption-side: top;
 }
+.schedule_tables {
+    display: flex;
+    justify-content: space-between;
+    min-width: 300px;
+    gap: 15px;
+}
+.schedule_tables .table {
+    width: auto;
+}
+@media (max-width: 991px) {
+    .schedule_tables {
+        display: block;
+    }
+}

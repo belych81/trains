@@ -79,6 +79,7 @@ class SiteController extends Controller
 
         $departures = $model->getDepartures();
         $arrives = $model->getArrives();
+        $countStations = $model->getCountStations();
 
         if (Yii::$app->request->isAjax) {
             $this->layout = false;
@@ -88,6 +89,7 @@ class SiteController extends Controller
             'items' => $items,
             'departures' => $departures,
             'arrives' => $arrives,
+            'countStations' => $countStations,
         ]);
     }
 

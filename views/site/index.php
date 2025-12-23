@@ -18,9 +18,9 @@ $this->title = 'Поезда';
         <div class="site-login">
 
             <div class="row" id="trainSchedule">
-                <div class="col-lg-5">
-                    <div id="currentTime"><?= Yii::$app->formatter->asTime('now', 'php:H:i') ?></div>
-                    <table class="table">
+                <div id="currentTime"><?= Yii::$app->formatter->asTime('now', 'php:H:i') ?></div>
+                <div class="schedule_tables">
+                    <table class="table col-lg-4">
                         <caption>Сейчас на станциях</caption>
                         <? 
                         if (!empty($items)) {
@@ -48,7 +48,7 @@ $this->title = 'Поезда';
                         ?>
                     </table>
 
-                    <table class="table">
+                    <table class="table col-lg-4">
                         <caption>Отправления</caption>
                         <? 
                         if (!empty($departures)) {
@@ -70,7 +70,7 @@ $this->title = 'Поезда';
                         ?>
                     </table>
 
-                    <table class="table">
+                    <table class="table col-lg-4">
                         <caption>Прибытия</caption>
                         <? 
                         if (!empty($arrives)) {
@@ -87,6 +87,27 @@ $this->title = 'Поезда';
                         } else {
                             ?>
                            <tbody><tr><td colspan="4">Нет поездов</td></tr></tbody>
+                            <?php
+                        }
+                        ?>
+                    </table>
+                </div>
+
+                <div>
+                    <table class="table col-lg-12">
+                        <caption>Самые нагруженные станции</caption>
+                        <? 
+                        if (!empty($countStations)) {
+                            foreach ($countStations as $item) { 
+                                    ?>
+                                <tr>
+                                    <td><?= Html::encode($item['name']) ?></td>
+                                    <td><?= Html::encode($item['count']) ?></td>
+                                </tr>
+                            <? } 
+                        } else {
+                            ?>
+                            <tbody><tr><td colspan="5">Нет поездов</td></tr></tbody>
                             <?php
                         }
                         ?>

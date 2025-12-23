@@ -145,13 +145,24 @@ class Items extends \yii\db\ActiveRecord
                 'name' => $params['Items']['station'],
             ]);
             if ($station) {
-                var_dump($station->id);
                 $data = $station->items;
             }
        }
 
        return $data;
+    }
 
+    public function getCountStations()
+    {
+        
+        return $this->find()
+            ->select(['station.name', 'COUNT(*) as count'])
+            ->joinWith('station')
+            ->groupBy('station_id')
+            ->orderBy(['count' => SORT_DESC, 'station.name' => SORT_ASC])
+            ->limit(30)
+            ->asArray()
+            ->all();
     }
 
 }
