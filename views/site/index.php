@@ -15,7 +15,7 @@ $this->title = 'Поезда';
 
     <div class="body-content">
 
-        <div class="site-login">
+        <div class="schedule">
 
             <div class="row" id="trainSchedule">
                 <div id="currentTime"><?= Yii::$app->formatter->asTime('now', 'php:H:i') ?></div>

@@ -98,11 +98,17 @@ caption {
 .schedule_tables {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     min-width: 300px;
     gap: 15px;
+    align-items: flex-start;
 }
 .schedule_tables .table {
     width: auto;
+}
+.schedule caption {
+    font-weight: 700;
+    color: black;
 }
 @media (max-width: 991px) {
     .schedule_tables {
