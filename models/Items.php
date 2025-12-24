@@ -108,32 +108,40 @@ class Items extends \yii\db\ActiveRecord
         return $items;
     }
 
-    public function getDepartures()
+    public function getDepartures($where = true, $limit = 5)
     {
         $timezone = new \DateTimeZone('Europe/Moscow');
         $endDateObj = new \DateTime("now", $timezone);
         $endDate = $endDateObj->format('H:i');
         
-        return $this->find()
-            ->where(['is', 'arrive', new \yii\db\Expression('null')])
-            ->andWhere(['>=','departure', $endDate])
-            ->orderBy('departure')
-            ->limit(5)
-            ->all();
+        $query = $this->find()
+            ->where(['is', 'arrive', new \yii\db\Expression('null')]);
+
+        if ($where) {
+            $query->andWhere(['>=','departure', $endDate]);
+        }
+
+        return $query->orderBy('departure')
+                ->limit($limit)
+                ->all();
     }
 
-    public function getArrives()
+    public function getArrives($where = true, $limit = 5)
     {
         $timezone = new \DateTimeZone('Europe/Moscow');
         $endDateObj = new \DateTime("now", $timezone);
         $endDate = $endDateObj->format('H:i');
         
-        return $this->find()
-            ->where(['is', 'departure', new \yii\db\Expression('null')])
-            ->andWhere(['>=','arrive', $endDate])
-            ->orderBy('arrive')
-            ->limit(5)
-            ->all();
+        $query = $this->find()
+            ->where(['is', 'departure', new \yii\db\Expression('null')]);
+
+        if ($where) {
+            $query->andWhere(['>=','arrive', $endDate]);
+        }
+
+        return $query->orderBy('arrive')
+                     ->limit($limit)
+                     ->all();
     }
 
     public function search($params)

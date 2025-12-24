@@ -79,6 +79,25 @@ class SiteController extends Controller
 
         $departures = $model->getDepartures();
         $arrives = $model->getArrives();
+        $cntArrives = 0;
+        $cntDepartures = 0;
+
+        if (!$arrives || ($cntArrives = count($arrives)) < 5) {
+            $newLimit = 5 - $cntArrives;
+            $newArrives = $model->getArrives(false, $newLimit);
+            if ($newArrives) {
+                $arrives = $arrives ? array_merge($arrives, $newArrives) : $newArrives;
+            }
+        }
+
+        if (!$departures || ($cntDepartures = count($departures)) < 5) {
+            $newLimit = 5 - $cntDepartures;
+            $newDepartures = $model->getDepartures(false, $newLimit);
+            if ($newDepartures) {
+                $departures = $departures ? array_merge($departures, $newDepartures) : $newDepartures;
+            }
+        }
+
         $countStations = $model->getCountStations();
 
         if (Yii::$app->request->isAjax) {
