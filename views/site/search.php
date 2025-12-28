@@ -18,7 +18,7 @@ $this->title = 'Поиск';
         <div class="site-login">
 
             <div class="row">
-                <div class="col-lg-5">
+                <div class="col-lg-12">
 
                     <?php $form = ActiveForm::begin([
                         'id' => 'search-form',
@@ -32,7 +32,7 @@ $this->title = 'Поиск';
                         ],
                     ]); ?>
 
-                    <?= $form->field($model, 'station') ?>
+                    <?= $form->field($model, 'station')->textInput(['value' => $search]) ?>
 
                     <div class="form-group">
                         <div>
@@ -47,16 +47,18 @@ $this->title = 'Поиск';
                         <caption>Расписание станции</caption>
                         <? 
                         if (!empty($data)) {
-                            foreach ($data as $item) { 
+                            foreach ($data as $station) { 
+                                foreach ($station as $item) { 
                                     ?>
-                                <tr>
-                                    <td><?= Html::encode($item->station->name) ?></td>
-                                    <td><?= Html::encode($item->train->number) ?></td>
-                                    <td><?= Html::encode($item->train->name) ?></td>
-                                    <td><?= Yii::$app->formatter->asTime(Html::encode($item->arrive), 'php:H:i') ?></td>
-                                    <td><?= Yii::$app->formatter->asTime(Html::encode($item->departure), 'php:H:i') ?></td>
-                                </tr>
-                            <? 
+                                    <tr>
+                                        <td><?= Html::encode($item->station->name) ?></td>
+                                        <td><?= Html::encode($item->train->number) ?></td>
+                                        <td><?= Html::encode($item->train->name) ?></td>
+                                        <td><?= Yii::$app->formatter->asTime(Html::encode($item->arrive), 'php:H:i') ?></td>
+                                        <td><?= Yii::$app->formatter->asTime(Html::encode($item->departure), 'php:H:i') ?></td>
+                                    </tr>
+                                <? 
+                                }
                             } 
                         } else {
                             ?>

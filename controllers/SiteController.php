@@ -120,11 +120,13 @@ class SiteController extends Controller
         
         if ($post = Yii::$app->request->post()) {
             $data = $searchModel->search($post);
+            $search = $post['Items']['station'];
         }
 
         return $this->render('search', [
              'model' => $searchModel,
-             'data' => $data
+             'data' => $data,
+             'search' => $search
         ]);
     }
 

@@ -149,11 +149,17 @@ class Items extends \yii\db\ActiveRecord
        $data = [];
 
        if($params['Items']['station']) {
-            $station = Station::findOne([
-                'name' => $params['Items']['station'],
-            ]);
-            if ($station) {
-                $data = $station->items;
+            $stations = Station::find()
+                ->where(['like', 'name', $params['Items']['station']])
+                ->all();
+            if ($stations) {
+                foreach ($stations as $station) {
+                    $data[] = Items::find()
+                            ->join('JOIN', 'station', 'station.id = items.station_id') // Объединяем таблицы
+                            ->where(['station.id' => $station->id])
+                            ->orderBy('items.arrive ASC') // Сортируем по дате из связанной таблицы
+                            ->all();
+                }
             }
        }
 
