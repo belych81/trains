@@ -117,6 +117,7 @@ class SiteController extends Controller
         $data = [];
 
         $searchModel = new Items();
+        $search = '';
         
         if ($post = Yii::$app->request->post()) {
             $data = $searchModel->search($post);
