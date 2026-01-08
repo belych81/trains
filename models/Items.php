@@ -85,9 +85,10 @@ class Items extends \yii\db\ActiveRecord
         $endDate = $endDateObj->format('H:i');
         
         return $this->find()
+            ->join('JOIN', 'station', 'station.id = items.station_id') // Объединяем таблицы
             ->where(['<=', 'arrive', new \yii\db\Expression("NOW()")])
             ->andWhere(['>=','departure', $endDate])
-            ->orderBy('arrive')
+            ->orderBy('station.name ASC') // Сортируем по дате из связанной таблицы
             ->all();
     }
 
